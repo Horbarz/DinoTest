@@ -6,8 +6,9 @@ import image1 from "../assets/images/img01.jpg"
 import CreateCity from './CreateCity';
 import SingleCard from './SingleCard';
 
-const Cities = ({...props}) => {
+const Locations = ({...props}) => {
     const [modal, setModal] = useState(false);
+
     const toggle = () => {
         setModal(!modal);
     }
@@ -24,16 +25,16 @@ const Cities = ({...props}) => {
     // };
 
     useEffect(() => {
-        props.fetchAllCities("cities")
+        props.fetchAllCities("locations")
     })
     return (
         <>
            <div className="header text-center">
                <h3>Dino Cities</h3>
-               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create City</button>
+               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create Location</button>
            </div>
            <div className="location-container">
-                {props.locationList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)}
+                {props.locationList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} />)}
            </div>
            <CreateCity toggle = {toggle} modal = {modal} />
         </>
@@ -48,5 +49,5 @@ const mapActionsToProps = {
     fetchAllCities: actions.fetchAll,
 }
 
-export default connect(mapStateToProps,mapActionsToProps)(Cities);
+export default connect(mapStateToProps,mapActionsToProps)(Locations);
 

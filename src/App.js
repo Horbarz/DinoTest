@@ -4,13 +4,16 @@ import { store } from "./actions/store";
 import { Provider } from "react-redux";
 import Cities from './components/Cities';
 import 'bootstrap/dist/css/bootstrap.min.css'
-//import 'font-awesome/css/font-awesome.min.css'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
-    <Provider store={store}>
-      <Cities />
-    </Provider>
+    <Router>
+       <Provider store={store}>
+        <Cities />
+      </Provider>
+    </Router>
+   
   );
 }
 

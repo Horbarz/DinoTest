@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
 export const fetchAll = (category) => dispatch => {
     api.locationsApi(category).fetchAll()
         .then(response => {
-            console.log(response)
             dispatch({
                 type: ACTION_TYPES.FETCH_ALL,
                 payload: response.data
@@ -22,9 +21,10 @@ export const fetchAll = (category) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const fetchById = (id) => dispatch => {
-    api.locationsApi().fetchById(id)
+export const fetchById = (category,id) => dispatch => {
+    api.locationsApi(category).fetchById(id)
         .then(response => {
+            console.log(response)
             dispatch({
                 type: ACTION_TYPES.FETCH_ID,
                 payload: response.data

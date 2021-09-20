@@ -5,9 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import image1 from "../assets/images/img01.jpg" 
 import CreateCity from './CreateCity';
 import SingleCard from './SingleCard';
+import {useLocation} from 'react-router'
 
-const Cities = ({...props}) => {
+const SingleCity = ({...props}) => {
+    const cityLocation = useLocation()
+    const {cityId} = cityLocation.state
     const [modal, setModal] = useState(false);
+
     const toggle = () => {
         setModal(!modal);
     }
@@ -24,29 +28,29 @@ const Cities = ({...props}) => {
     // };
 
     useEffect(() => {
-        props.fetchAllCities("cities")
+        props.fetchCityById("cities",6)
     })
     return (
         <>
            <div className="header text-center">
                <h3>Dino Cities</h3>
-               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create City</button>
+               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create Location</button>
            </div>
            <div className="location-container">
-                {props.locationList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)}
+                {/* {props.cityList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} />)} */}
            </div>
-           <CreateCity toggle = {toggle} modal = {modal} />
+           
         </>
     )
 }
 
 const mapStateToProps = state => ({
-    locationList: state.location.list
+    cityList: state.location.list
 })
 
 const mapActionsToProps = {
-    fetchAllCities: actions.fetchAll,
+    fetchCityById: actions.fetchById,
 }
 
-export default connect(mapStateToProps,mapActionsToProps)(Cities);
+export default connect(mapStateToProps,mapActionsToProps)(SingleCity);
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 
 
 const SingleCard = ({...props}) => {
@@ -39,8 +40,19 @@ const SingleCard = ({...props}) => {
         props.deleteLocation(props.index)
     }
 
+    const onCityClick = () => {
+        // Link to location
+        const city_id = props.id
+        return (
+            <Link to={{pathname:"/city",state:{
+                cityId:city_id
+            }}}>
+            </Link>
+        )
+    }
+
     return (
-        <div class = "card-wrapper">
+        <div class = "card-wrapper" onClick={onCityClick}>
             <div class = "card-top" style={{"background-color": colors[props.index%5].primaryColor}}></div>
             <div class = "location-holder">
                 <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span>
