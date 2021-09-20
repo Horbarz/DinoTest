@@ -40,17 +40,17 @@ const SingleCard = ({...props}) => {
     }
 
     return (
-        <div class = "card-wrapper mr-5">
+        <div class = "card-wrapper">
             <div class = "card-top" style={{"background-color": colors[props.index%5].primaryColor}}></div>
             <div class = "location-holder">
-                <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor, "border-radius": "10px"}}>{props.locationObj.name}</span>
-                <p className = "mt-3">{props.locationObj.code}</p>
+                <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span>
+                <h2 className = "code">{props.locationObj.code}</h2>
 
-                <div style={{"position": "absolute", "right" : "20px", "bottom" : "20px"}}>
-                    <i class = "far fa-edit mr-5" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer"}} onClick = {() => setModal(true)}></i>
+                <div className="icons-location">
+                    <i class = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {() => setModal(true)}></i>
                     <i class="fas fa-trash-alt" style = {{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}></i>
                 </div>
-        </div>
+            </div>
         {/* <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/> */}
         </div>
     );
