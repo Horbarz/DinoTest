@@ -10,7 +10,7 @@ export default {
         const url = baseUrl + category + "/";
         return {
             fetchAll: () => axios.get(url),
-            fetchById: id => axios.get(url + id),
+            fetchById: id => axios.get(url + id+"/"),
             fetchByName: nameInfo => axios.get(url,nameInfo),
             fetchByCode: codeInfo => axios.get(url,codeInfo),
             create: newRecord => axios.post(url, newRecord),

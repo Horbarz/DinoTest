@@ -13,10 +13,12 @@ const Cities = ({...props}) => {
         setModal(!modal);
     }
     const [filteredData, setFilteredData] = useState([])
+    const [ loader, setLoader ] = useState(true);
+    let componentMounted = true; 
 
     const handleCodeChange = (e => {
         const searchCode = e.target.value
-        const newFilter = props.locationList.filter((value)=>{
+        const newFilter = props.cityList.filter((value)=>{
             return value.code.includes(searchCode)
         });
         setFilteredData(newFilter)
@@ -24,19 +26,23 @@ const Cities = ({...props}) => {
 
     const handleNameChange = (e => {
         const searchName = e.target.value
-        const newFilter = props.locationList.filter((value)=>{
+        const newFilter = props.cityList.filter((value)=>{
             return value.name.includes(searchName)
         });
         setFilteredData(newFilter)
     })
 
-    const resetForms = () => {
-       
-    }
 
     useEffect(() => {
-        props.fetchAllCities("cities")
-    })
+        if (componentMounted){ 
+            props.fetchAllCities("cities")
+            //setLoader(false)
+            setTimeout(() => setLoader(false), 3000)
+        }
+        return () => { 
+            componentMounted = false;
+        }
+    },[])
 
     return (
         <>
@@ -68,9 +74,13 @@ const Cities = ({...props}) => {
                </div>
            </div>
            <div className="location-container">
-                {/* <Skeleton height={250} width={300} count = {3}/> */}
-                { filteredData.length !== 0 ? filteredData.map((v,k) => <SingleCard locationObj={v} index={k} id={v.id}/>) :  props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)}
-                {/* { <Skeleton height={250} width={300} count = {3}/> && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)} */}
+                { 
+                loader ? <Skeleton height={250} width={300} count = {3}/> : 
+                    filteredData.length !== 0 ? 
+                    filteredData.map((v,k) => <SingleCard locationObj={v} index={k} id={v.id}/>) :  
+                    props.cityList.reverse().map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)
+                }
+                
            </div>
            <CreateCity toggle = {toggle} modal = {modal} title="Create" />
         </>
@@ -78,7 +88,7 @@ const Cities = ({...props}) => {
 }
 
 const mapStateToProps = state => ({
-    locationList: state.location.list
+    cityList: state.location.list
 })
 
 const mapActionsToProps = {

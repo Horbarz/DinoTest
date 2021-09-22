@@ -48,19 +48,20 @@ const SingleCard = ({...props}) => {
     return (
        
         <>
-        <div class = "card-wrapper">
-            <div class = "card-top" style={{"background-color": colors[props.index%5].primaryColor}}></div>
-            <div class = "location-holder">
+        <div className = "card-wrapper">
+            <div className = "card-top" style={{"background-color": colors[props.index%5].primaryColor}}></div>
+            <div className = "location-holder">
            
-                <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span>
+                <span className = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span>
                  <Link className="code" to={{pathname:"/city",state:{
-                   cityId:props.id
+                   cityId:props.id,
+                   index:props.index
                   }}} style={{ textDecoration: 'none' }}>
                     <h2>{props.locationObj.code}</h2>
                 </Link>
            
                 <div className="icons-location">
-                    <i class = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {updateCity}></i>
+                    <i className = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {updateCity}></i>
                     <i class="fas fa-trash-alt" style = {{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}></i>
                 </div>
             </div>

@@ -11,13 +11,14 @@ import Locations from './components/Locations';
 function App() {
   return (
     <Router>
-      <Switch>
-        <Provider store={store}>
-          <Route path="/" exact component={Cities}/>
-          <Route path="/location" exact component={Locations} />
-          <Route path="/city" exact component={SingleCity}/>
-        </Provider>
-      </Switch>
+      <Provider store={store}>
+        <Switch>
+          <Route exact path="/" component={Cities}/>
+          <Route exact path="/location" component={Locations} />
+          <Route exact path="/city" component={SingleCity}/>
+        </Switch>
+      </Provider>
+      
     </Router>
    
   );

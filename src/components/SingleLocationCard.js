@@ -61,11 +61,12 @@ const SingleLocationCard = ({...props}) => {
                 <i className = "fas fa-compass">&nbsp; {props.locationObj.postal_code}</i>
                 <i className = "fas fa-star">&nbsp; {props.locationObj.status}</i>
 
-           
+                {props.editDelete &&  
                 <div className="icons-location">
                     <i class = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {updateLocation}></i>
                     <i class="fas fa-trash-alt" style = {{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}></i>
                 </div>
+                }
             </div>
         {/* <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/> */}
         </div>

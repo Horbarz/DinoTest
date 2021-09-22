@@ -10,11 +10,10 @@ const CreateLocation = (props) => {
     const [cities, setCities] = useState([])
 
     const getAllCities = () => {
-        var cityUrl = "https://api.photodino.com/locations/cities"
+        var cityUrl = "https://api.photodino.com/locations/cities/"
           axios.get(cityUrl)
               .then(res => {
                 setCities(res.data)
-                // console.log(res.data)
               })
               .catch(e => {
                   console.log(e)
@@ -49,7 +48,6 @@ const CreateLocation = (props) => {
                 id:props.LocationId,
                 ...props.listOfLocation.find(x => x.id === props.LocationId)
             })
-            //console.log(props.classList)
         }else{
             resetForms()
         }
@@ -72,7 +70,6 @@ const CreateLocation = (props) => {
             resetForms()
         }
         if(typeof(props.LocationId) !== "undefined"){
-            //console.log(props.cityId)
             props.updateLocation("locations",props.LocationId,location,onSuccess)
         }else{
             props.createLocation("locations",location,onSuccess())

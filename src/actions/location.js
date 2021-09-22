@@ -10,7 +10,7 @@ export const ACTION_TYPES = {
     FETCH_CODE: 'FETCH_CODE'
 }
 
-export const fetchAll = (category) => dispatch => {
+export const fetchAll = (category,onSuccess) => dispatch => {
     api.locationsApi(category).fetchAll()
         .then(response => {
             dispatch({

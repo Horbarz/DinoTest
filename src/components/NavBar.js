@@ -9,11 +9,11 @@ const NavBar = () => {
         <div className="navbar">
             <div className="navbar-container">
                 <ul className="nav-menu">
-                    <li className="nav-item" onClick={() => window.location.reload()}>
-                        <Link to="/" style={{ textDecoration: 'none',color:'white' }}> City </Link>
+                    <li className="nav-item" onClick={() => window.location.reload(false)} >
+                        <Link to="/" style={{ textDecoration: 'none',color:'white' }}> Cities </Link>
                     </li>
-                    <li className="nav-item" onClick={() => window.location.reload()}>
-                        <Link to="/location" style={{ textDecoration: 'none',color:'white' }}> Location </Link>
+                    <li className="nav-item">
+                        <Link to="/location" style={{ textDecoration: 'none',color:'white' }}> Hotels </Link>
                     </li>
                 </ul>
             </div>

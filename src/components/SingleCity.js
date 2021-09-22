@@ -2,59 +2,81 @@ import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 import * as actions from "../actions/location";
 import { makeStyles } from '@material-ui/core/styles';
-import image1 from "../assets/images/img01.jpg" 
 import CreateCity from './CreateCity';
 import SingleCard from './SingleCard';
 import {useLocation} from 'react-router'
+import axios from "axios"
+import NavBar from './NavBar';
+import Particles from 'react-particles-js';
+import SingleLocationCard from './SingleLocationCard';
+import Skeleton from 'react-loading-skeleton';
 
 const SingleCity = ({...props}) => {
     const cityLocation = useLocation()
     const {cityId} = cityLocation.state
+    const {index} = cityLocation.state
     const [modal, setModal] = useState(false);
-
+    const [ loader, setLoader ] = useState(true);
     const [allLocations, setAllLocations] = useState([])
-    const toggle = () => {
-        setModal(!modal);
-    }
-    // const classes = useStyles();
-    // const [page, setPage] = useState(0);
-    // const [rowsPerPage, setRowsPerPage] = useState(5);
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-    
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(+event.target.value);
-    //     setPage(0);
-    // };
+    let componentMounted = true
 
     useEffect(() => {
         props.fetchCityById("cities",cityId)
-        //console.log(props.cityList[0].locations)
-       
-    })
+        if (componentMounted){
+            getLocations()
+            setTimeout(() => setLoader(false), 3000)
+        }
+        return () => { 
+            componentMounted = false;
+        }
+      
+    },[])
 
     const getLocations = () => {
-        props.cityList[0].locations.map((x) => {
-            setAllLocations([...allLocations,x])
-        })
+        var locUrl = "https://api.photodino.com/locations/locations/"
+        if(props.cityList[index].locations.length > 1){
+            props.cityList[index].locations.map((locationId, key) =>{
+                axios.get(locUrl+locationId+"/")
+                    .then(res => {
+                        setAllLocations(arr=>[...arr,res.data])
+                    })
+                    .catch(e => {
+                        console.log(e)
+                })                
+                
+            })
+        }
     }
-    getLocations()
     return (
         <>
-
+            <Particles 
+            params={{
+                particles:{
+                    number:{
+                        value:10,
+                        density:{
+                            enable:true,
+                            value_area:50
+                        }
+                    }
+                }
+            }}
+            height="250px"
+            />
+            <NavBar />
            <div className="header text-center">
-               <h3>{props.cityList[0].name}</h3>
-               <p>{console.log(allLocations)}</p>
+               <h3>{props.cityList[index].name}</h3>
+               <p>{props.cityList[index].code}</p>
            </div>
            <div className="location-container">
-                {/* {allLocations && allLocations.map((obj, index) => <SingleCard obj={obj} index={index} />)} */}
+                {
+                loader ? <Skeleton height={250} width={300} count = {3}/> :
+                allLocations.map((obj, index) => <SingleLocationCard locationObj={obj} index={index} id={obj.id} editDelete={false}/>)}
            </div>
            
         </>
     )
 }
-
 const mapStateToProps = state => ({
     cityList: state.location.list
 })

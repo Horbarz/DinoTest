@@ -8,10 +8,14 @@ import SingleLocationCard from './SingleLocationCard';
 import CreateLocation from './CreateLocation';
 import NavBar from './NavBar';
 import Particles from 'react-particles-js';
+import Skeleton from 'react-loading-skeleton';
+
 
 
 const Locations = ({...props}) => {
     const [modal, setModal] = useState(false);
+    const [ loader, setLoader ] = useState(true);
+    let componentMounted = true
 
     const toggle = () => {
         setModal(!modal);
@@ -27,8 +31,15 @@ const Locations = ({...props}) => {
     })
 
     useEffect(() => {
-        props.fetchAllCities("locations")
-    })
+      
+        if (componentMounted){
+            props.fetchAllCities("locations")
+            setTimeout(() => setLoader(false), 3000)
+        }
+        return () => { 
+            componentMounted = false;
+        }
+    },[])
     return (
         <>
             <Particles 
@@ -47,9 +58,9 @@ const Locations = ({...props}) => {
             />
             <NavBar />
            <div className="header text-center">
-               <h3>Dino Location</h3>
+               <h3>Dino Hotels</h3>
                <div className="cbtn">
-                    <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create Location</button>
+                    <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create Hotel</button>
                </div>
                <div className="search-area">
                 <form>
@@ -58,7 +69,12 @@ const Locations = ({...props}) => {
                </div>
            </div>
            <div className="location-container">
-                {filteredData.length !== 0 ? filteredData.map((v,k) => <SingleLocationCard locationObj={v} index={k} id={v.id}/>) : props.locationList.map((obj, index) => <SingleLocationCard locationObj={obj} index={index} id={obj.id} />)}
+                {
+                loader ? <Skeleton height={250} width={300} count = {3}/> :
+                filteredData.length !== 0 ? 
+                filteredData.map((v,k) => <SingleLocationCard locationObj={v} index={k} id={v.id}/>) : 
+                props.locationList.reverse().map((obj, index) => <SingleLocationCard locationObj={obj} index={index} id={obj.id} editDelete={true} />)
+                }
            </div>
            <CreateLocation toggle = {toggle} modal = {modal} title="Create"/>
         </>
