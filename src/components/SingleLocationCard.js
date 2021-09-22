@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import CreateCity from './CreateCity';
 import * as actions from "../actions/location";
+import CreateLocation from './CreateLocation';
 
 
-const SingleCard = ({...props}) => {
+const SingleLocationCard = ({...props}) => {
     const [modal, setModal] = useState(false);
 
     const colors = [
@@ -35,49 +36,51 @@ const SingleCard = ({...props}) => {
         setModal(!modal);
     }
 
-    const updateCity = () => {
+    const updateLocation = () => {
         setModal(true)
     }
 
     const handleDelete = () => {
-        // var x = confirm("Are you sure you want to delete?");
-        props.deleteCity("cities",props.id)
-
+        props.deleteLocation("locations",props.id)
     }
 
     return (
-       
+        // <Link to={{pathname:"/city",state:{
+        //             cityId:props.id
+        //          }}} style={{ textDecoration: 'none' }}>
         <>
         <div class = "card-wrapper">
             <div class = "card-top" style={{"background-color": colors[props.index%5].primaryColor}}></div>
             <div class = "location-holder">
-           
-                <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span>
-                 <Link className="code" to={{pathname:"/city",state:{
-                   cityId:props.id
-                  }}} style={{ textDecoration: 'none' }}>
-                    <h2>{props.locationObj.code}</h2>
-                </Link>
+                {/* <span class = "card-header" style={{"background-color": colors[props.index%5].secondaryColor}}>{props.locationObj.name}</span> */}
+                <i className = "fas fa-hotel">&nbsp; {props.locationObj.name}</i>
+                <i className = "fas fa-envelope">&nbsp; {props.locationObj.email}</i>
+                <i className = "fas fa-phone">&nbsp; {props.locationObj.phone}</i>
+                <i className = "fas fa-map-marker">&nbsp; {props.locationObj.street_number} {props.locationObj.street_name}</i>
+                <i className = "fas fa-dollar-sign">&nbsp; {props.locationObj.rent}</i>
+                <i className = "fas fa-compass">&nbsp; {props.locationObj.postal_code}</i>
+                <i className = "fas fa-star">&nbsp; {props.locationObj.status}</i>
+
            
                 <div className="icons-location">
-                    <i class = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {updateCity}></i>
+                    <i class = "far fa-edit" style={{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer","marginRight":"8px"}} onClick = {updateLocation}></i>
                     <i class="fas fa-trash-alt" style = {{"color" : colors[props.index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}></i>
                 </div>
             </div>
         {/* <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/> */}
         </div>
-        <CreateCity toggle = {toggle} modal = {modal} cityId = {props.id} title="Edit"/>
+        <CreateLocation toggle = {toggle} modal = {modal} LocationId = {props.id} title="Edit"/>
         </>
         // </Link>
     );
 };
 
 const mapStateToProps = state => ({
-    cityList: state.location.list
+    locationList: state.location.list
 })
 
 const mapActionsToProps = {
-    deleteCity: actions.Delete
+    deleteLocation: actions.Delete
 }
 
-export default connect(mapStateToProps,mapActionsToProps)(SingleCard);
+export default connect(mapStateToProps,mapActionsToProps)(SingleLocationCard);

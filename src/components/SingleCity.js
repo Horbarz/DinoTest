@@ -12,6 +12,7 @@ const SingleCity = ({...props}) => {
     const {cityId} = cityLocation.state
     const [modal, setModal] = useState(false);
 
+    const [allLocations, setAllLocations] = useState([])
     const toggle = () => {
         setModal(!modal);
     }
@@ -28,16 +29,26 @@ const SingleCity = ({...props}) => {
     // };
 
     useEffect(() => {
-        props.fetchCityById("cities",6)
+        props.fetchCityById("cities",cityId)
+        //console.log(props.cityList[0].locations)
+       
     })
+
+    const getLocations = () => {
+        props.cityList[0].locations.map((x) => {
+            setAllLocations([...allLocations,x])
+        })
+    }
+    getLocations()
     return (
         <>
+
            <div className="header text-center">
-               <h3>Dino Cities</h3>
-               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create Location</button>
+               <h3>{props.cityList[0].name}</h3>
+               <p>{console.log(allLocations)}</p>
            </div>
            <div className="location-container">
-                {/* {props.cityList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} />)} */}
+                {/* {allLocations && allLocations.map((obj, index) => <SingleCard obj={obj} index={index} />)} */}
            </div>
            
         </>
@@ -50,6 +61,7 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
     fetchCityById: actions.fetchById,
+    fetchLocationById: actions.fetchById
 }
 
 export default connect(mapStateToProps,mapActionsToProps)(SingleCity);

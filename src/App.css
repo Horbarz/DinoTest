@@ -2,10 +2,46 @@
   text-align: center;
 }
 .header {
+  position: relative;
   height: 200px;
   width: 100%;
   background-color: #e9eef6;
   padding-top: 50px;
+ 
+}
+
+.cbtn{
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.tsparticles-canvas-el{
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  z-index: 1;
+}
+
+.search-area{
+  z-index: 2;
+  position: absolute;
+  bottom: 0 !important;
+  right: 0 !important;
+  margin: 10px;
+  font-size: 15px !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-area button{
+  background: #ddd;
+  font-size: 15px !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-area button:hover{
+  background: #ccc;
 }
 
 .container {
@@ -57,20 +93,21 @@
 .card-header {
   margin-top: 10px;
   margin-bottom: 10px;
-  max-width: 100px;
-  height: 30px;
+  max-width: 150px;
+  max-height: 50px;
   padding: 5px 5px !important;
   text-align: center;
   border-radius: 20px !important;
 }
 
 .location-container {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   background-color: #f6f7f8;
   padding: 50px 100px;
+  justify-content: center;
 }
 
 .icons-location {
@@ -87,3 +124,47 @@
 .location-holder:hover > .code {
   color: white;
 }
+
+.location-holder > i{
+  margin-bottom: 0.2em;  
+  margin-top: 0em;
+}
+.location-holder:hover > i {
+  color: white;
+}
+.navbar{
+  background: #47aff5;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+  height: 10vh;
+}
+
+.navbar-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-menu{
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+  justify-content: start;
+}
+
+.nav-item{
+  margin-right: 10px;
+  border-bottom:2px solid transparent;
+  font-size: large;
+  font-weight: 700;
+  color: white;
+  
+}
+
+.nav-item:hover{
+  border:2px solid gray;
+  cursor: pointer;
+  padding: 0.4rem 0.4rem;
+}
+

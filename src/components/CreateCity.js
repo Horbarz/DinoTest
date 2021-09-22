@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { connect } from 'react-redux'
+import * as actions from "../actions/location";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
@@ -8,58 +9,64 @@ const CreateCity = (props) => {
 
     const initialValues = {
         name:'',
-        rent:'',
-        email:'',
-        phone:'',
-        coordinates:'',
-        street_number:0,
-        street_name:'',
-        postal_code:0,
-        status:'',
-        city:0
+        code:''
     }
 
-    const [location, setLocation] = useState(initialValues)
+    const [city, setCity] = useState(initialValues)
 
     const handleInputChange = (e => {
         const {name, value} = e.target
         const fieldValue =   {[name]: value}
-        setLocation({
-            ...location,
+        setCity({
+            ...city,
             ...fieldValue
         })
     })
 
+    const resetForms = () => {
+        setCity({
+            ...initialValues
+        })
+    }
+
+    useEffect(() => {
+        if(props.cityId !==null){
+            setCity({
+                id:props.cityId,
+                ...props.cityList.find(x => x.id === props.cityId)
+            })
+        }else{
+            resetForms()
+        }
+    },[props.cityId])
+
     const handleSubmit = e => {
         e.preventDefault()
-        
+        const onSuccess = () => {
+            resetForms()
+        }
+        if(typeof(props.cityId) !== "undefined"){
+            props.updateCity("cities",props.cityId,city,onSuccess)
+        }else{
+            props.createCity("cities",city,onSuccess())
+        }
     }
 
     return (
         <Modal isOpen={props.modal} toggle={props.toggle}>
-            <ModalHeader toggle={props.toggle}>Create Location</ModalHeader>
+            <ModalHeader toggle={props.toggle}>{props.title} City</ModalHeader>
             <ModalBody>
-            
-                    <div className = "form-group">
-                        <label>Name</label>
-                        <input type="text" className = "form-control" value = {location.name} onChange = {handleInputChange} name = "name"/>
-                    </div>
-                    <div className = "form-group">
-                        <label>Email</label>
-                        <input type="email" className = "form-control" value = {location.email} onChange = {handleInputChange} name = "email"></input>
-                    </div>
-                    <div className = "form-group">
-                        <label>Phone</label>
-                        <input type="phone" className = "form-control" value = {location.phone} onChange = {handleInputChange} name = "phone"></input>
-                    </div>
-                    <div className = "form-group">
-                        <label>Rent</label>
-                        <input type="text" className = "form-control" value = {location.rent} onChange = {handleInputChange} name = "rent"></input>
-                    </div>
-                
+                <div className = "form-group">
+                    <label>Name</label>
+                    <input type="text" className = "form-control" value = {city.name} onChange = {handleInputChange} name = "name"/>
+                </div>
+                <div className = "form-group">
+                    <label>Code</label>
+                    <input type="text" className = "form-control" value = {city.code} onChange = {handleInputChange} name = "code"></input>
+                </div>
             </ModalBody>
             <ModalFooter>
-            <Button color="primary" onClick={handleSubmit}>Create</Button>{' '}
+            <Button color="primary" onClick={handleSubmit}>{props.title}</Button>{' '}
             <Button color="secondary" onClick={props.toggle}>Cancel</Button>
             </ModalFooter>
       </Modal>
@@ -67,11 +74,12 @@ const CreateCity = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    
+    cityList: state.location.list
 })
 
 const mapDispatchToProps = {
-    
+    createCity: actions.create,
+    updateCity: actions.update
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCity)

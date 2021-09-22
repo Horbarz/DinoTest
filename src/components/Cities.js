@@ -1,41 +1,78 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 import * as actions from "../actions/location";
-import { makeStyles } from '@material-ui/core/styles';
-import image1 from "../assets/images/img01.jpg" 
 import CreateCity from './CreateCity';
 import SingleCard from './SingleCard';
+import NavBar from './NavBar';
+import Skeleton from 'react-loading-skeleton';
+import Particles from 'react-particles-js';
 
 const Cities = ({...props}) => {
     const [modal, setModal] = useState(false);
     const toggle = () => {
         setModal(!modal);
     }
-    // const classes = useStyles();
-    // const [page, setPage] = useState(0);
-    // const [rowsPerPage, setRowsPerPage] = useState(5);
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-    
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(+event.target.value);
-    //     setPage(0);
-    // };
+    const [filteredData, setFilteredData] = useState([])
+
+    const handleCodeChange = (e => {
+        const searchCode = e.target.value
+        const newFilter = props.locationList.filter((value)=>{
+            return value.code.includes(searchCode)
+        });
+        setFilteredData(newFilter)
+    })
+
+    const handleNameChange = (e => {
+        const searchName = e.target.value
+        const newFilter = props.locationList.filter((value)=>{
+            return value.name.includes(searchName)
+        });
+        setFilteredData(newFilter)
+    })
+
+    const resetForms = () => {
+       
+    }
 
     useEffect(() => {
         props.fetchAllCities("cities")
     })
+
     return (
         <>
+            <Particles 
+            params={{
+                particles:{
+                    number:{
+                        value:10,
+                        density:{
+                            enable:true,
+                            value_area:50
+                        }
+                    }
+                }
+            }}
+            height="250px"
+            />
+            <NavBar />
            <div className="header text-center">
                <h3>Dino Cities</h3>
-               <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create City</button>
+               <div className="cbtn">
+                    <button className="btn btn-primary mt-2" onClick = {() => setModal(true)}>Create City</button>
+               </div>
+                <div className="search-area">
+                <form>
+                    <input type="text" placeholder="Code" onChange={handleCodeChange}/>
+                    <input style={{marginLeft:"10px"}} type="text" placeholder="Name" onChange={handleNameChange}/>
+                </form>
+               </div>
            </div>
            <div className="location-container">
-                {props.locationList && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)}
+                {/* <Skeleton height={250} width={300} count = {3}/> */}
+                { filteredData.length !== 0 ? filteredData.map((v,k) => <SingleCard locationObj={v} index={k} id={v.id}/>) :  props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)}
+                {/* { <Skeleton height={250} width={300} count = {3}/> && props.locationList.map((obj, index) => <SingleCard locationObj={obj} index={index} id={obj.id} />)} */}
            </div>
-           <CreateCity toggle = {toggle} modal = {modal} />
+           <CreateCity toggle = {toggle} modal = {modal} title="Create" />
         </>
     )
 }
@@ -46,6 +83,9 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
     fetchAllCities: actions.fetchAll,
+    deleteCity: actions.Delete,
+    fetchCityByName: actions.fetchByName,
+    fetchCityByCode: actions.fetchByCode
 }
 
 export default connect(mapStateToProps,mapActionsToProps)(Cities);

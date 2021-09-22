@@ -24,7 +24,6 @@ export const fetchAll = (category) => dispatch => {
 export const fetchById = (category,id) => dispatch => {
     api.locationsApi(category).fetchById(id)
         .then(response => {
-            console.log(response)
             dispatch({
                 type: ACTION_TYPES.FETCH_ID,
                 payload: response.data
@@ -33,8 +32,8 @@ export const fetchById = (category,id) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const fetchByName = (nameInfo) => dispatch => {
-    api.locationsApi().fetchByName(nameInfo)
+export const fetchByName = (category,nameInfo) => dispatch => {
+    api.locationsApi(category).fetchByName(nameInfo)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.FETCH_NAME,
@@ -44,8 +43,8 @@ export const fetchByName = (nameInfo) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const fetchByCode = (codeInfo) => dispatch => {
-    api.locationsApi().fetchByCode(codeInfo)
+export const fetchByCode = (category,codeInfo) => dispatch => {
+    api.locationsApi(category).fetchByCode(codeInfo)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.FETCH_CODE,
@@ -55,9 +54,10 @@ export const fetchByCode = (codeInfo) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const create = (data, onSuccess) => dispatch => {
-    api.locationsApi().create(data)
+export const create = (category,data, onSuccess) => dispatch => {
+    api.locationsApi(category).create(data)
         .then(res => {
+            console.log(res.data)
             dispatch({
                 type: ACTION_TYPES.CREATE,
                 payload: res.data
@@ -67,8 +67,8 @@ export const create = (data, onSuccess) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const update = (id, data, onSuccess) => dispatch => {
-    api.locationsApi().update(id, data)
+export const update = (category,id, data, onSuccess) => dispatch => {
+    api.locationsApi(category).update(id, data)
         .then(res => {
             dispatch({
                 type: ACTION_TYPES.UPDATE,
@@ -79,14 +79,13 @@ export const update = (id, data, onSuccess) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const Delete = (id, onSuccess) => dispatch => {
-    api.locationsApi().delete(id)
+export const Delete = (category,id) => dispatch => {
+    api.locationsApi(category).delete(id)
         .then(res => {
             dispatch({
                 type: ACTION_TYPES.DELETE,
                 payload: id
             })
-            onSuccess()
         })
         .catch(err => console.log(err))
 }

@@ -14,8 +14,8 @@ export default {
             fetchByName: nameInfo => axios.get(url,nameInfo),
             fetchByCode: codeInfo => axios.get(url,codeInfo),
             create: newRecord => axios.post(url, newRecord),
-            update: (id, updateRecord) => axios.put(url + id, updateRecord),
-            delete: id => axios.delete(url + id)
+            update: (id, updateRecord) => axios.put(url + id +"/", updateRecord),
+            delete: id => axios.delete(url + id + "/")
         }
     }    
 }
